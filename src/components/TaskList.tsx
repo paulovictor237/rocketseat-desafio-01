@@ -16,14 +16,36 @@ export function TaskList() {
 
   function handleCreateNewTask() {
     // Crie uma nova task com um id random, não permita criar caso o título seja vazio.
+    // id: new Date().toISOString()
+    // Math.random()
+    if(!newTaskTitle||newTaskTitle==='')return
+
+    const newTask:Task = {
+      id: new Date().getTime(),
+      title:newTaskTitle,
+      isComplete: false
+    }
+    setTasks([...tasks,newTask]);
+    setNewTaskTitle('');
   }
 
   function handleToggleTaskCompletion(id: number) {
     // Altere entre `true` ou `false` o campo `isComplete` de uma task com dado ID
+    // https://www.alura.com.br/artigos/manipulacao-de-array-com-map-filter-e-reduce?gclid=Cj0KCQiA_8OPBhDtARIsAKQu0gbBoWESYPAP1yDvxcJeIKFLo2e2Qjr5RZH2tO7oo5BSyjhGoBu9qPAaAjzEEALw_wcB
+    //cria uma copia do OBJETO e altera a propriedade isComplete
+    const updatedTasks = tasks.map(item => item.id === id ? {
+      ...item,
+      isComplete: !item.isComplete
+    } : item);
+
+    setTasks(updatedTasks)
   }
 
   function handleRemoveTask(id: number) {
     // Remova uma task da listagem pelo ID
+    // const updatedGoals = prevGoals.filter(goal => goal.id !== goalId);
+    const updatedTasks = tasks.filter(item => item.id !== id);
+    setTasks(updatedTasks)
   }
 
   return (
